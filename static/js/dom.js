@@ -33,14 +33,40 @@ export let dom = {
         let boardList = '';
 
         for(let board of boards){
-            boardList += `
-                <div class="board-container">
-                    <section class="board">
-                    <div class="board-header"><span class="board-title">${board.title}</span>
-                    <button class="board-add">Add Card</button>
-                    <button class="board-toggle"><i class="fas fa-chevron-down"></i></button></div>
-                    </section>
+            boardList += `                 
+            <section class="board" id="board-${board.id}\">
+            <div class="board-header"><span class="board-title">${board.title}</span>
+                <button class="board-add">Add Card</button>
+                <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
+            </div>
+            <div class="board-columns">
+                <div class="board-column">
+                    <div class="board-column-title">New</div>
+                    <div class="board-column-content" id="board-${board.id}-new">
+
+
+                    </div>
                 </div>
+                <div class="board-column">
+                    <div class="board-column-title">In Progress</div>
+                    <div class="board-column-content" id="board-${board.id}-progress">
+
+                    </div>
+                </div>
+                <div class="board-column">
+                    <div class="board-column-title">Testing</div>
+                    <div class="board-column-content" id="board-${board.id}-testing">
+
+                    </div>
+                </div>
+                <div class="board-column">
+                    <div class="board-column-title">Done</div>
+                    <div class="board-column-content" id="board-${board.id}-done">
+
+                    </div>
+                </div>
+            </div>
+        </section> 
             `;
         }
 
