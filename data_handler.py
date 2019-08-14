@@ -1,14 +1,23 @@
 import persistence
+import connection
+from psycopg2 import sql
 
-
-def get_card_status(status_id):
+@connection.connection_handler
+def get_card_status(cursor, status_id):
     """
     Find the first status matching the given id
     :param status_id:
     :return: str
     """
-    statuses = persistence.get_statuses()
-    return next((status['title'] for status in statuses if status['id'] == str(status_id)), 'Unknown')
+    # statuses = persistence.get_statuses()
+    # return next((status['title'] for status in statuses if status['id'] == str(status_id)), 'Unknown')
+
+    cursor.execute(sql.SQL("""SELECT title FROM statuses WHERE id = {}""")
+                   .format(sql.SQL(status_id)))
+
+    print(cursor.fetchone())
+
+    return cursor.fetchone()
 
 
 def get_boards():
