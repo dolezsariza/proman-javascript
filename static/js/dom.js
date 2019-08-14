@@ -35,6 +35,7 @@ export let dom = {
         for(let board of boards){
             boardList += `
                 <li>${board.title}</li>
+                
             `;
         }
 
