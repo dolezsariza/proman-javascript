@@ -36,7 +36,7 @@ export let dom = {
             boardList += `                 
             <section class="board" id="board-${board.id}\">
             <div class="board-header"><span class="board-title">${board.title}</span>
-                <button class="board-add">Add Card</button>
+                <button class="board-add">Add Card </button>
                 <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
             </div>
             <div class="board-columns">
@@ -80,6 +80,9 @@ export let dom = {
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
+         dataHandler.getCard(function(cards){
+            dom.showCards(cards);
+    })
     },
     showCards: function (cards) {
         // shows the cards of a board
