@@ -24,9 +24,7 @@ export let dom = {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function(boards){
             dom.showBoards(boards);
-
         });
-
     },
     showBoards: function (boards) {
         // shows boards appending them to #boards div
@@ -89,6 +87,9 @@ export let dom = {
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
+         dataHandler.getCard(function(cards){
+            dom.showCards(cards);
+    })
     },
     showCards: function (cards) {
         // shows the cards of a board
@@ -117,4 +118,3 @@ export let dom = {
     // here comes more features
 
 };
-
