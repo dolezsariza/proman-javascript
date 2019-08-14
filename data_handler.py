@@ -19,15 +19,17 @@ def get_card_status(cursor, status_id):
 
     return cursor.fetchone()
 
+@connection.connection_handler
+def get_boards(cursor):
 
-def get_boards():
-    """
-    Gather all boards
-    :return:
-    """
-    return persistence.get_boards(force=True)
+    cursor.execute("""
+                    SELECT * FROM boards
+                    """)
+    data = cursor.fetchall()
+    return data
 
 
+"""
 def get_cards_for_board(board_id):
     persistence.clear_cache()
     all_cards = persistence.get_cards()
@@ -36,7 +38,7 @@ def get_cards_for_board(board_id):
         if card['board_id'] == str(board_id):
             card['status_id'] = get_card_status(card['status_id'])  # Set textual status for the card
             matching_cards.append(card)
-    return matching_cards
+    return matching_cards"""
 
 @connection.connection_handler
 def get_cards_for_board(cursor, board_id):
