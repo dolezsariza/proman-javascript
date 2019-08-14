@@ -42,8 +42,8 @@ def get_cards_for_board(board_id):
 
 @connection.connection_handler
 def get_cards_for_board(cursor, board_id):
-    cursor.execute('''SELECT * FROM cards WHERE board_id=%(board_id)s;''',
-                   {'board_id': board_id})
+    cursor.execute("""SELECT * FROM cards WHERE board_id=%(board_id)s;""",
+                   {"board_id": board_id})
 
     cards_data = cursor.fetchall()
     return cards_data
