@@ -34,7 +34,13 @@ export let dom = {
 
         for(let board of boards){
             boardList += `
-                <li>${board.title}</li>
+                <div class="board-container">
+                    <section class="board">
+                    <div class="board-header"><span class="board-title">${board.title}</span>
+                    <button class="board-add">Add Card</button>
+                    <button class="board-toggle"><i class="fas fa-chevron-down"></i></button></div>
+                    </section>
+                </div>
             `;
         }
 
