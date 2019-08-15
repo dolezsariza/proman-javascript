@@ -45,26 +45,26 @@ export let dom = {
             <div class="board-columns hidden">
                 <div class="board-column">
                     <div class="board-column-title">New</div>
-                    <div class="board-column-content" id="board-${board.id}-new">
+                    <div class="board-column-content" id="board-${board.id}-1">
 
 
                     </div>
                 </div>
                 <div class="board-column">
                     <div class="board-column-title">In Progress</div>
-                    <div class="board-column-content" id="board-${board.id}-progress">
+                    <div class="board-column-content" id="board-${board.id}-2">
 
                     </div>
                 </div>
                 <div class="board-column">
                     <div class="board-column-title">Testing</div>
-                    <div class="board-column-content" id="board-${board.id}-testing">
+                    <div class="board-column-content" id="board-${board.id}-3">
 
                     </div>
                 </div>
                 <div class="board-column">
                     <div class="board-column-title">Done</div>
-                    <div class="board-column-content" id="board-${board.id}-done">
+                    <div class="board-column-content" id="board-${board.id}-4">
 
                     </div>
                 </div>
@@ -94,12 +94,33 @@ export let dom = {
         console.log("before calling getcards");
          dataHandler.getCardsByBoardId(boardId, function(cards){
             dom.showCards(cards);
-    })
+        })
     },
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
-        this._appendToElement(document.querySelector("#boards"), "");
+
+        for (let card of cards) {
+            let newCard = document.createElement("div");
+            newCard.setAttribute("class", "card");
+            let cardOpenClose = document.createElement("div");
+            cardOpenClose.setAttribute("class", "card-remove");
+            let iElement = document.createElement("i");
+            iElement.setAttribute("class", "fas fa-trash-alt");
+            cardOpenClose.appendChild(iElement);
+            let cardTitle = document.createElement("div");
+            cardTitle.setAttribute("class", "card-title");
+            cardTitle.setAttribute("id", `board-${card.board_id}-card-${card.id}`);
+            cardTitle.textContent = card.title;
+            newCard.appendChild(cardOpenClose);
+            newCard.appendChild(cardTitle);
+            document.getElementById(`board-${card.board_id}-${card.status_id}`).appendChild(newCard);
+
+
+        }
+        ;
+        //this._appendToElement(document.querySelector("#boards"), );
+
     },
 
    openBoards: function(board_id) {
@@ -130,15 +151,13 @@ export let dom = {
                                 <input type="hidden" name="board_id" value="${board_id}">
                                 <button type="submit">Save</button>  
                               </form>`;
-                        title.removeEventListener("click", clickEvent);
-                        };
-       title.addEventListener("click", clickEvent);
+            title.removeEventListener("click", clickEvent);
+        };
+        title.addEventListener("click", clickEvent);
 
 
+    }
 
-
-
-   }
     // here comes more features
 
 };
