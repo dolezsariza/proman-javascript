@@ -80,7 +80,8 @@ export let dom = {
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
-         dataHandler.getCard(function(cards){
+         dataHandler.getCardsByBoardId(function(cards){
+            console.log(cards);
             dom.showCards(cards);
     })
     },
