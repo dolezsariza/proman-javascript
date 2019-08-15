@@ -20,6 +20,8 @@ export let dom = {
     init: function () {
         // This function should run once, when the page is loaded.
     },
+
+
     loadBoards: function () {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function(boards){
@@ -33,12 +35,12 @@ export let dom = {
         let boardList = '';
 
         for(let board of boards){
-            boardList += `                 
+            boardList += `
             <section class="board" id="board-${board.id}\">
-            <div class="board-header"><span class="board-title">${board.title}</span>
+            <div class="board-header"><span id="board-${board.id}-title">${board.title}</span>
                 <button class="board-add">Add Card</button>
                 <button id="button-${board.id}"><i class="fas fa-chevron-down"></i></button>
-                
+
             </div>
             <div class="board-columns hidden">
                 <div class="board-column">
@@ -67,25 +69,26 @@ export let dom = {
                     </div>
                 </div>
             </div>
-        </section> 
+        </section>
             `;
 
         }
         setTimeout(function() {
                 for (let board of boards) {
                     dom.openBoards(board.id);
-                    dom.loadCards(board.id)
+                    dom.loadCards(board.id);
+                    dom.editTitle(board.id);
                 }
-            },2000);
+            },1000);
 
         const outerHtml = `
             <ul class="board-container">
                 ${boardList}
             </ul>
         `;
-
         this._appendToElement(document.querySelector('#boards'), outerHtml);
     },
+
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
         console.log("before calling getcards");
@@ -96,7 +99,7 @@ export let dom = {
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
-        this._appendToElement(document.querySelector("#boards"), "card megjött");
+        this._appendToElement(document.querySelector("#boards"), "cards");
     },
 
    openBoards: function(board_id) {
@@ -105,18 +108,37 @@ export let dom = {
         let actualBoardId = `board-${board_id}`;
         let columns = document.getElementById(actualBoardId).childNodes[3];
 
-            button.addEventListener("click", function(){
-                if (columns.classList.contains("hidden")) {
-                    columns.classList.remove("hidden");
-                    button.innerHTML = `<i class="fas fa-chevron-up"></i>`
-                } else {
-                    columns.classList.add("hidden");
-                    button.innerHTML = `<i class="fas fa-chevron-down"></i>`
-                }
-            });
-            
-   }
+        button.addEventListener("click", function(){
+            if (columns.classList.contains("hidden")) {
+                columns.classList.remove("hidden");
+                button.innerHTML = `<i class="fas fa-chevron-up"></i>`
+            } else {
+                columns.classList.add("hidden");
+                button.innerHTML = `<i class="fas fa-chevron-down"></i>`
+            }
+        });
 
+   },
+
+   editTitle: function(board_id) {
+       let titleId = `board-${board_id}-title`;
+       let title = document.getElementById(titleId);
+       let oldTitle = title.textContent;
+       let clickEvent = function() {
+                          title.innerHTML = `<form action=/change-title method="POST">
+                                <input type="text" name="newTitle" value="${oldTitle}">
+                                <input type="hidden" name="board_id" value="${board_id}">
+                                <button type="submit">Save</button>  
+                              </form>`;
+                        title.removeEventListener("click", clickEvent);
+                        };
+       title.addEventListener("click", clickEvent);
+
+
+
+
+
+   }
     // here comes more features
 
 };
