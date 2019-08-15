@@ -66,3 +66,12 @@ def add_new_board(cursor, name):
                     INSERT INTO boards (title) VALUES (%(name)s);
                     """,
                     {'name':name})
+
+
+@connection.connection_handler
+def add_new_card(cursor, board_id):
+    cursor.execute("""
+                    INSERT INTO cards (title, 'order', board_id, status_id)
+                    VALUES ("New card", 1, %(board_id)s, 1);
+                    """,
+                    {'board_id': board_id})

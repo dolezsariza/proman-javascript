@@ -38,7 +38,7 @@ export let dom = {
             boardList += `
             <section class="board" id="board-${board.id}">
             <div class="board-header"><span id="board-${board.id}-title">${board.title}</span>
-                <button class="board-add">Add Card</button>
+                <button class="board-add" id="add-card-button-${board.id}">Add Card</button>
                 <button id="button-${board.id}"><i class="fas fa-chevron-down"></i></button>
 
             </div>
@@ -78,7 +78,8 @@ export let dom = {
                     dom.openBoards(board.id);
                     dom.loadCards(board.id);
                     dom.editTitle(board.id);
-                    dom.addNewCardEventListener(board.id);
+                    let button = document.getElementById(`add-card-button-${board.id}`);
+                    button.addEventListener("click", function() {dom.createNewCard(board.id);});
                 }
             },1000);
 
@@ -159,14 +160,36 @@ export let dom = {
 
     },
 
-    addNewCardEventListener: function (boardId) {
-
-        document.querySelector(`button-${boardId}`).addEventListener("click", createNewCard(boardId));
-    },
-
 
     createNewCard: function (boardId) {
+        let newCard = document.createElement("div");
+        newCard.setAttribute("class", "card");
+        let cardOpenClose = document.createElement("div");
+        cardOpenClose.setAttribute("class", "card-remove");
+        let iElement = document.createElement("i");
+        iElement.setAttribute("class", "fas fa-trash-alt");
+        cardOpenClose.appendChild(iElement);
+        let cardTitle = document.createElement("div");
+        cardTitle.setAttribute("class", "card-title");
+        cardTitle.setAttribute("id", `board-${boardId}-card-X`);
+        cardTitle.textContent = "New card";
+        newCard.appendChild(cardOpenClose);
+        newCard.appendChild(cardTitle);
+        document.getElementById(`board-${boardId}-1`).appendChild(newCard);
 
+        //editTitle: function (board_id) {
+            //let titleId = `board-${board_id}-title`;
+            let title = document.getElementById(`board-${boardId}-card-X`);
+            let oldTitle = cardTitle.textContent;
+            let clickEvent = function () {
+                title.innerHTML = `<input type="text" name="newTitle" value="${oldTitle}">
+                                <button type="submit">Save</button>`;
+                title.removeEventListener("click", clickEvent);
+            };
+            title.addEventListener("click", clickEvent);
+
+
+        //}
 
     },
 };
