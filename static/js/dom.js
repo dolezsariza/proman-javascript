@@ -96,7 +96,28 @@ export let dom = {
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
-        this._appendToElement(document.querySelector("#boards"), "card megjött");
+        /*let cardContent = "";
+
+         cards.forEach ( card => function () {`<div class="card">
+                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
+                            <div class="card-title">${card.title}</div>
+                        </div>`;});*/
+        cards.forEach (card => function () {
+            let newCard = document.createElement("div")
+            newCard.setAttribute("class", "card");
+            let cardOpenClose = document.createElement("div");
+            cardOpenClose.setAttribute("class", "card-remove");
+            let iElement = document.createElement("i");
+            iElement.setAttribute("class", "fas fa-trash-alt");
+            cardOpenClose.appendChild(iElement);
+            let cardTitle = document.createElement("div");
+            cardTitle.setAttribute("class", );
+            newCard.appendChild(cardOpenClose);
+            newCard.appendChild(cardTitle);
+
+        };);
+        this._appendToElement(document.querySelector("#boards"), cardContent);
+
     },
 
    openBoards: function(board_id) {
