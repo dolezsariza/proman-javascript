@@ -1,5 +1,5 @@
 // It uses data_handler.js to visualize elements
-import { dataHandler } from "./data_handler.js";
+import {dataHandler} from "./data_handler.js";
 
 export let dom = {
     _appendToElement: function (elementToExtend, textToAppend, prepend = false) {
@@ -22,7 +22,7 @@ export let dom = {
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
-        dataHandler.getBoards(function(boards){
+        dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
         });
     },
@@ -32,7 +32,7 @@ export let dom = {
 
         let boardList = '';
 
-        for(let board of boards){
+        for (let board of boards) {
             boardList += `                 
             <section class="board" id="board-${board.id}\">
             <div class="board-header"><span id="board-${board.id}-title">${board.title}</span>
@@ -71,13 +71,13 @@ export let dom = {
             `;
 
         }
-        setTimeout(function() {
-                for (let board of boards) {
-                    dom.openBoards(board.id);
-                    dom.loadCards(board.id);
-                    dom.editTitle(board.id);
-                }
-            },1000);
+        setTimeout(function () {
+            for (let board of boards) {
+                dom.openBoards(board.id);
+                dom.loadCards(board.id);
+                dom.editTitle(board.id);
+            }
+        }, 1000);
 
         const outerHtml = `
             <ul class="board-container">
@@ -90,20 +90,16 @@ export let dom = {
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
         console.log("before calling getcards");
-         dataHandler.getCardsByBoardId(boardId, function(cards){
+        dataHandler.getCardsByBoardId(boardId, function (cards) {
+            console.log(cards);
             dom.showCards(cards);
-    })
+        })
     },
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
-        /*let cardContent = "";
 
-         cards.forEach ( card => function () {`<div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">${card.title}</div>
-                        </div>`;});*/
-        cards.forEach (card => function () {
+        for (let card of cards) {
             let newCard = document.createElement("div")
             newCard.setAttribute("class", "card");
             let cardOpenClose = document.createElement("div");
@@ -120,19 +116,19 @@ export let dom = {
             document.getElementById(`board-${card.board_id}-${card.status_id}`).appendChild(newCard);
 
 
-
-        };);
-        this._appendToElement(document.querySelector("#boards"), addCards);
+        }
+        ;
+        //this._appendToElement(document.querySelector("#boards"), );
 
     },
 
-   openBoards: function(board_id) {
+    openBoards: function (board_id) {
         let buttonId = `button-${board_id}`;
         let button = document.getElementById(buttonId);
         let actualBoardId = `board-${board_id}`;
         let columns = document.getElementById(actualBoardId).childNodes[3];
 
-        button.addEventListener("click", function(){
+        button.addEventListener("click", function () {
             if (columns.classList.contains("hidden")) {
                 columns.classList.remove("hidden");
                 button.innerHTML = `<i class="fas fa-chevron-up"></i>`
@@ -142,26 +138,24 @@ export let dom = {
             }
         });
 
-   },
+    },
 
-   editTitle: function(board_id) {
-       let titleId = `board-${board_id}-title`;
-       let title = document.getElementById(titleId);
-       let oldTitle = title.textContent;
-       let clickEvent = function() {
-                          title.innerHTML = `<form action=/change-title/${board_id}>
+    editTitle: function (board_id) {
+        let titleId = `board-${board_id}-title`;
+        let title = document.getElementById(titleId);
+        let oldTitle = title.textContent;
+        let clickEvent = function () {
+            title.innerHTML = `<form action=/change-title/${board_id}>
                                 <input type="text" name="newTitle" value="${oldTitle}">
                                 <button type="submit">Save</button>  
                               </form>`;
-                        title.removeEventListener("click", clickEvent);
-                        };
-       title.addEventListener("click", clickEvent);
+            title.removeEventListener("click", clickEvent);
+        };
+        title.addEventListener("click", clickEvent);
 
 
+    }
 
-
-
-   }
     // here comes more features
 
 };
