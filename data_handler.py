@@ -47,3 +47,13 @@ def get_cards_for_board(cursor, board_id):
 
     cards_data = cursor.fetchall()
     return cards_data
+
+
+@connection.connection_handler
+def rename_board(cursor, board_id, new_name):
+    cursor.execute("""
+                    UPDATE boards
+                    SET title = %(new_name)s
+                    WHERE boards.id == %(board_id)s;
+                    """,
+                    {'board_id':board_id, 'new_name': new_name})
