@@ -36,10 +36,11 @@ export let dom = {
             boardList += `                 
             <section class="board" id="board-${board.id}\">
             <div class="board-header"><span class="board-title">${board.title}</span>
-                <button class="board-add">Add Card </button>
-                <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
+                <button class="board-add">Add Card</button>
+                <button id="button-${board.id}"><i class="fas fa-chevron-down"></i></button>
+                
             </div>
-            <div class="board-columns">
+            <div class="board-columns hidden">
                 <div class="board-column">
                     <div class="board-column-title">New</div>
                     <div class="board-column-content" id="board-${board.id}-new">
@@ -68,7 +69,13 @@ export let dom = {
             </div>
         </section> 
             `;
+
         }
+        setTimeout(function() {
+                for (let board of boards) {
+                    dom.openBoards(board.id);
+                }
+            },2000);
 
         const outerHtml = `
             <ul class="board-container">
@@ -88,7 +95,27 @@ export let dom = {
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
+
     },
+   openBoards: function(board_id) {
+        let buttonId = `button-${board_id}`;
+        let button = document.getElementById(buttonId);
+        let actualBoardId = `board-${board_id}`;
+        let columns = document.getElementById(actualBoardId).childNodes[3];
+
+            button.addEventListener("click", function(){
+                if (columns.classList.contains("hidden")) {
+                    columns.classList.remove("hidden");
+                    button.innerHTML = `<i class="fas fa-chevron-up"></i>`
+                } else {
+                    columns.classList.add("hidden");
+                    button.innerHTML = `<i class="fas fa-chevron-down"></i>`
+                }
+            });
+
+
+   }
+
     // here comes more features
 
 };
