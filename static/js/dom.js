@@ -74,6 +74,7 @@ export let dom = {
         setTimeout(function() {
                 for (let board of boards) {
                     dom.openBoards(board.id);
+                    dom.loadCards(board.id)
                 }
             },2000);
 
@@ -87,15 +88,17 @@ export let dom = {
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
-         dataHandler.getCard(function(cards){
+        console.log("before calling getcards");
+         dataHandler.getCardsByBoardId(boardId, function(cards){
             dom.showCards(cards);
     })
     },
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
-
+        this._appendToElement(document.querySelector("#boards"), "card megjött");
     },
+
    openBoards: function(board_id) {
         let buttonId = `button-${board_id}`;
         let button = document.getElementById(buttonId);
