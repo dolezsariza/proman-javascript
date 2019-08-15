@@ -13,8 +13,8 @@ export let dataHandler = {
             method: 'GET',
             credentials: 'same-origin'
         })
-        .then(response => response.json())  // parse the response as JSON
-        .then(json_response => callback(json_response));  // Call the `callback` with the returned object
+            .then(response => response.json())  // parse the response as JSON
+            .then(json_response => callback(json_response));  // Call the `callback` with the returned object
     },
     _api_post: function (url, data, callback) {
         // it is not called from outside
@@ -43,12 +43,12 @@ export let dataHandler = {
     },
     getCardsByBoardId: function (boardId, callback) {
         // the cards are retrieved and then the callback function is called with the cards
-            console.log("getcards before api request");
-         this._api_get(`/get-cards/${boardId}`, (response) => {
-             console.log("in api request");
-             this._data = response;
-             callback(response);
-         })
+        console.log("getcards before api request");
+        this._api_get(`/get-cards/${boardId}`, (response) => {
+            console.log("in api request");
+            this._data = response;
+            callback(response);
+        })
 
 
     },
