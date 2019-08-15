@@ -20,6 +20,8 @@ export let dom = {
     init: function () {
         // This function should run once, when the page is loaded.
     },
+
+
     loadBoards: function () {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function (boards) {
@@ -38,7 +40,7 @@ export let dom = {
             <div class="board-header"><span id="board-${board.id}-title">${board.title}</span>
                 <button class="board-add">Add Card</button>
                 <button id="button-${board.id}"><i class="fas fa-chevron-down"></i></button>
-                
+
             </div>
             <div class="board-columns hidden">
                 <div class="board-column">
@@ -67,7 +69,7 @@ export let dom = {
                     </div>
                 </div>
             </div>
-        </section> 
+        </section>
             `;
 
         }
@@ -84,9 +86,9 @@ export let dom = {
                 ${boardList}
             </ul>
         `;
-
         this._appendToElement(document.querySelector('#boards'), outerHtml);
     },
+
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
         console.log("before calling getcards");
@@ -140,13 +142,14 @@ export let dom = {
 
     },
 
-    editTitle: function (board_id) {
-        let titleId = `board-${board_id}-title`;
-        let title = document.getElementById(titleId);
-        let oldTitle = title.textContent;
-        let clickEvent = function () {
-            title.innerHTML = `<form action=/change-title/${board_id}>
+   editTitle: function(board_id) {
+       let titleId = `board-${board_id}-title`;
+       let title = document.getElementById(titleId);
+       let oldTitle = title.textContent;
+       let clickEvent = function() {
+                          title.innerHTML = `<form action=/change-title method="POST">
                                 <input type="text" name="newTitle" value="${oldTitle}">
+                                <input type="hidden" name="board_id" value="${board_id}">
                                 <button type="submit">Save</button>  
                               </form>`;
             title.removeEventListener("click", clickEvent);

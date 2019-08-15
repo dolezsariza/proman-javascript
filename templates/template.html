@@ -6,12 +6,14 @@
 </head>
 <body>
     <template id="board-template">
-        <section class="board" id="board-${board.id}">
-            <div class="board-header"><span class="board-title">${board.title}</span>
-                <button class="board-add">Add Card</button>
-                <button id="button-${board.id}"><i class="fas fa-chevron-down"></i></button>
-            </div>
-        </section>
+        <div class="board-container">
+            <section class="board" id="board-${board.id}">
+                <div class="board-header"><span class="board-title">${board.title}</span>
+                    <button class="board-add">Add Card</button>
+                    <button id="button-${board.id}"><i class="fas fa-chevron-down"></i></button>
+                </div>
+            </section>
+        </div>
     </template>
 
 

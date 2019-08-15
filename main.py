@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request, redirect
 from util import json_response
 
 import data_handler
@@ -22,9 +22,13 @@ def get_boards():
     """
     return data_handler.get_boards()
 
-@app.route("/change-title/<int:board_id>")
+@app.route("/change-title", methods=["GET","POST"])
 def change_title():
-    return "super"
+    if request.method == "POST":
+        board_id = request.form["board_id"]
+        new_title = request.form["newTitle"]
+        data_handler.rename_board(board_id, new_title)
+    return redirect("/")
 
 @app.route("/get-cards/<int:board_id>")
 @json_response

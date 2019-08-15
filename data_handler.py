@@ -24,6 +24,7 @@ def get_boards(cursor):
 
     cursor.execute("""
                     SELECT * FROM boards
+                    ORDER BY id ASC;
                     """)
     data = cursor.fetchall()
     return data
@@ -54,6 +55,7 @@ def rename_board(cursor, board_id, new_name):
     cursor.execute("""
                     UPDATE boards
                     SET title = %(new_name)s
-                    WHERE boards.id == %(board_id)s;
+                    WHERE id = %(board_id)s;
                     """,
+
                     {'board_id':board_id, 'new_name': new_name})
