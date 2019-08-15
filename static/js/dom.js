@@ -111,8 +111,7 @@ export let dom = {
                     button.innerHTML = `<i class="fas fa-chevron-down"></i>`
                 }
             });
-
-
+            
    }
 
     // here comes more features
