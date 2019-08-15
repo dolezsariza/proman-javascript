@@ -59,3 +59,10 @@ def rename_board(cursor, board_id, new_name):
                     """,
 
                     {'board_id':board_id, 'new_name': new_name})
+
+@connection.connection_handler
+def add_new_board(cursor, name):
+    cursor.execute("""
+                    INSERT INTO boards (title) VALUES (%(name)s);
+                    """,
+                    {'name':name})

@@ -36,7 +36,7 @@ export let dom = {
 
         for(let board of boards){
             boardList += `
-            <section class="board" id="board-${board.id}\">
+            <section class="board" id="board-${board.id}">
             <div class="board-header"><span id="board-${board.id}-title">${board.title}</span>
                 <button class="board-add">Add Card</button>
                 <button id="button-${board.id}"><i class="fas fa-chevron-down"></i></button>
@@ -99,7 +99,7 @@ export let dom = {
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
-        this._appendToElement(document.querySelector("#boards"), "cards");
+        this._appendToElement(document.querySelector("#boards"), "");
     },
 
    openBoards: function(board_id) {
