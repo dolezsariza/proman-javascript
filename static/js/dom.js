@@ -78,6 +78,7 @@ export let dom = {
                     dom.openBoards(board.id);
                     dom.loadCards(board.id);
                     dom.editTitle(board.id);
+                    dom.addNewCardEventListener(board.id);
                 }
             },1000);
 
@@ -156,8 +157,16 @@ export let dom = {
         title.addEventListener("click", clickEvent);
 
 
-    }
+    },
 
-    // here comes more features
+    addNewCardEventListener: function (boardId) {
 
+        document.querySelector(`button-${boardId}`).addEventListener("click", createNewCard(boardId));
+    },
+
+
+    createNewCard: function (boardId) {
+
+
+    },
 };
