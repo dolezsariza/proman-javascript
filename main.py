@@ -30,6 +30,15 @@ def change_title():
         data_handler.rename_board(board_id, new_title)
     return redirect("/")
 
+@app.route("/add-new-board", methods=["GET","POST"])
+def add_new_board():
+    if request.method == "POST":
+        title = request.form["title"]
+        data_handler.add_new_board(title)
+    return redirect("/")
+
+
+
 @app.route("/get-cards/<int:board_id>")
 @json_response
 def get_cards_for_board(board_id: int):
@@ -39,6 +48,14 @@ def get_cards_for_board(board_id: int):
     """
 
     return data_handler.get_cards_for_board(board_id)
+
+@app.route("/add-new-card/<int:board_id>")
+@json_response
+def add_new_card(board_id: int):
+    """
+    All the boards
+    """
+    return data_handler.add_new_card(board_id)
 
 
 def main():
