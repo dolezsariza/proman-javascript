@@ -95,7 +95,8 @@ export let dom = {
          dataHandler.getCardsByBoardId(boardId, function(cards){
             dom.showCards(cards);
     })
-    }
+    },
+
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
