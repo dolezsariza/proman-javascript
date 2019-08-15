@@ -177,16 +177,14 @@ export let dom = {
         newCard.appendChild(cardTitle);
         document.getElementById(`board-${boardId}-1`).appendChild(newCard);
 
-        //editTitle: function (board_id) {
-            //let titleId = `board-${board_id}-title`;
-            let title = document.getElementById(`board-${boardId}-card-X`);
-            let oldTitle = cardTitle.textContent;
-            let clickEvent = function () {
-                title.innerHTML = `<input type="text" name="newTitle" value="${oldTitle}">
-                                <button type="submit">Save</button>`;
-                title.removeEventListener("click", clickEvent);
-            };
-            title.addEventListener("click", clickEvent);
+        /*let title = document.getElementById(`board-${boardId}-card-X`);
+        let oldTitle = cardTitle.textContent;
+        let clickEvent = function () {
+            title.innerHTML = `<input type="text" name="newTitle" value="${oldTitle}">
+                            <button type="submit">Save</button>`;
+            title.removeEventListener("click", clickEvent);
+        };
+        title.addEventListener("click", clickEvent);*/
 
 
         //}
