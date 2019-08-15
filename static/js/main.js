@@ -8,6 +8,7 @@ function init() {
     dom.loadBoards();
     dom.loadCards(boardId);
 
+
 }
 
 init();
