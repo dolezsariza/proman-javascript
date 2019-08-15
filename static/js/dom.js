@@ -43,26 +43,26 @@ export let dom = {
             <div class="board-columns hidden">
                 <div class="board-column">
                     <div class="board-column-title">New</div>
-                    <div class="board-column-content" id="board-${board.id}-new">
+                    <div class="board-column-content" id="board-${board.id}-1">
 
 
                     </div>
                 </div>
                 <div class="board-column">
                     <div class="board-column-title">In Progress</div>
-                    <div class="board-column-content" id="board-${board.id}-progress">
+                    <div class="board-column-content" id="board-${board.id}-2">
 
                     </div>
                 </div>
                 <div class="board-column">
                     <div class="board-column-title">Testing</div>
-                    <div class="board-column-content" id="board-${board.id}-testing">
+                    <div class="board-column-content" id="board-${board.id}-3">
 
                     </div>
                 </div>
                 <div class="board-column">
                     <div class="board-column-title">Done</div>
-                    <div class="board-column-content" id="board-${board.id}-done">
+                    <div class="board-column-content" id="board-${board.id}-4">
 
                     </div>
                 </div>
@@ -111,12 +111,17 @@ export let dom = {
             iElement.setAttribute("class", "fas fa-trash-alt");
             cardOpenClose.appendChild(iElement);
             let cardTitle = document.createElement("div");
-            cardTitle.setAttribute("class", );
+            cardTitle.setAttribute("class", "card-title");
+            cardTitle.setAttribute("id", `board-${card.board_id}-card-${card.id}`);
+            cardTitle.textContent = card.title;
             newCard.appendChild(cardOpenClose);
             newCard.appendChild(cardTitle);
+            document.getElementById(`board-${card.board_id}-${card.status_id}`).appendChild(newCard);
+
+
 
         };);
-        this._appendToElement(document.querySelector("#boards"), cardContent);
+        this._appendToElement(document.querySelector("#boards"), addCards);
 
     },
 
