@@ -22,6 +22,9 @@ def get_boards():
     """
     return data_handler.get_boards()
 
+@app.route("/change-title/<int:board_id>")
+def change_title():
+    return "super"
 
 @app.route("/get-cards/<int:board_id>")
 @json_response

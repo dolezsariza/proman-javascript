@@ -35,7 +35,7 @@ export let dom = {
         for(let board of boards){
             boardList += `                 
             <section class="board" id="board-${board.id}\">
-            <div class="board-header"><span class="board-title">${board.title}</span>
+            <div class="board-header"><span id="board-${board.id}-title">${board.title}</span>
                 <button class="board-add">Add Card</button>
                 <button id="button-${board.id}"><i class="fas fa-chevron-down"></i></button>
                 
@@ -74,9 +74,10 @@ export let dom = {
         setTimeout(function() {
                 for (let board of boards) {
                     dom.openBoards(board.id);
-                    dom.loadCards(board.id)
+                    dom.loadCards(board.id);
+                    dom.editTitle(board.id);
                 }
-            },2000);
+            },1000);
 
         const outerHtml = `
             <ul class="board-container">
@@ -131,18 +132,36 @@ export let dom = {
         let actualBoardId = `board-${board_id}`;
         let columns = document.getElementById(actualBoardId).childNodes[3];
 
-            button.addEventListener("click", function(){
-                if (columns.classList.contains("hidden")) {
-                    columns.classList.remove("hidden");
-                    button.innerHTML = `<i class="fas fa-chevron-up"></i>`
-                } else {
-                    columns.classList.add("hidden");
-                    button.innerHTML = `<i class="fas fa-chevron-down"></i>`
-                }
-            });
-            
-   }
+        button.addEventListener("click", function(){
+            if (columns.classList.contains("hidden")) {
+                columns.classList.remove("hidden");
+                button.innerHTML = `<i class="fas fa-chevron-up"></i>`
+            } else {
+                columns.classList.add("hidden");
+                button.innerHTML = `<i class="fas fa-chevron-down"></i>`
+            }
+        });
 
+   },
+
+   editTitle: function(board_id) {
+       let titleId = `board-${board_id}-title`;
+       let title = document.getElementById(titleId);
+       let oldTitle = title.textContent;
+       let clickEvent = function() {
+                          title.innerHTML = `<form action=/change-title/${board_id}>
+                                <input type="text" name="newTitle" value="${oldTitle}">
+                                <button type="submit">Save</button>  
+                              </form>`;
+                        title.removeEventListener("click", clickEvent);
+                        };
+       title.addEventListener("click", clickEvent);
+
+
+
+
+
+   }
     // here comes more features
 
 };
