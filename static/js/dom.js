@@ -165,6 +165,8 @@ export let dom = {
             status_id: 1,
             title: 'New card'
         };
+
+        dataHandler.createNewCard(boardId, function(response){console.log(response)});
         dom.showCard(card);
         //
         // let newCard = document.createElement("div");
