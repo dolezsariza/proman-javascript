@@ -160,27 +160,28 @@ export let dom = {
     createNewCard: function (boardId) {
 
         let card = {
+            id: null,
             board_id: boardId,
             status_id: 1,
             title: 'New card'
         };
         dom.showCard(card);
-
-        let newCard = document.createElement("div");
-        newCard.setAttribute("class", "card");
-        let cardOpenClose = document.createElement("div");
-        cardOpenClose.setAttribute("class", "card-remove");
-        let iElement = document.createElement("i");
-        iElement.setAttribute("class", "fas fa-trash-alt");
-        cardOpenClose.appendChild(iElement);
-        let cardTitle = document.createElement("div");
-        cardTitle.setAttribute("class", "card-title");
-        cardTitle.setAttribute("id", `board-${boardId}-card-X`);
-        cardTitle.textContent = "New card";
-        newCard.appendChild(cardOpenClose);
-        newCard.appendChild(cardTitle);
-        let boardActual = document.getElementById(`board-${boardId}-1`);
-        boardActual.appendChild(newCard);
+        //
+        // let newCard = document.createElement("div");
+        // newCard.setAttribute("class", "card");
+        // let cardOpenClose = document.createElement("div");
+        // cardOpenClose.setAttribute("class", "card-remove");
+        // let iElement = document.createElement("i");
+        // iElement.setAttribute("class", "fas fa-trash-alt");
+        // cardOpenClose.appendChild(iElement);
+        // let cardTitle = document.createElement("div");
+        // cardTitle.setAttribute("class", "card-title");
+        // cardTitle.setAttribute("id", `board-${boardId}-card-X`);
+        // cardTitle.textContent = "New card";
+        // newCard.appendChild(cardOpenClose);
+        // newCard.appendChild(cardTitle);
+        // let boardActual = document.getElementById(`board-${boardId}-1`);
+        // boardActual.appendChild(newCard);
 
         /*let title = document.getElementById(`board-${boardId}-card-X`);
         let oldTitle = cardTitle.textContent;
