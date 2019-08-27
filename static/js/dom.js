@@ -45,28 +45,19 @@ export let dom = {
             <div class="board-columns hidden">
                 <div class="board-column">
                     <div class="board-column-title">New</div>
-                    <div class="board-column-content" id="board-${board.id}-1">
-
-
-                    </div>
+                    <div class="board-column-content" id="board-${board.id}-1"></div>
                 </div>
                 <div class="board-column">
                     <div class="board-column-title">In Progress</div>
-                    <div class="board-column-content" id="board-${board.id}-2">
-
-                    </div>
+                    <div class="board-column-content" id="board-${board.id}-2"></div>
                 </div>
                 <div class="board-column">
                     <div class="board-column-title">Testing</div>
-                    <div class="board-column-content" id="board-${board.id}-3">
-
-                    </div>
+                    <div class="board-column-content" id="board-${board.id}-3"></div>
                 </div>
                 <div class="board-column">
                     <div class="board-column-title">Done</div>
-                    <div class="board-column-content" id="board-${board.id}-4">
-
-                    </div>
+                    <div class="board-column-content" id="board-${board.id}-4"></div>
                 </div>
             </div>
         </section>
