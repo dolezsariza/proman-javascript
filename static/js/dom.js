@@ -31,15 +31,25 @@ export let dom = {
     showBoards: function (boards) {
         // shows boards appending them to #boards div
         // it adds necessary event listeners also
+        let boardDiv = document.getElementById('boards');
 
+        let newButton= `
+            <button id="create-button" class="add-new">Create board</button>
+            `;
+        boardDiv.innerHTML += newButton;
+        let createBoardBtn = document.getElementById("create-button");
+        createBoardBtn.addEventListener("click",function () {
+            dom.createNewBoard();
+
+        });
         let boardList = '';
 
         for(let board of boards){
             boardList += `
             <section class="board" id="board-${board.id}">
-            <div class="board-header"><span id="board-${board.id}-title" class="board-title">${board.title}</span>
+            <div class="board-header"><span class="board-title" id="board-${board.id}-title" >${board.title}</span>
                 <button class="board-add" id="add-card-button-${board.id}">Add Card</button>
-                <button id="button-${board.id}" class="board-toggle"><i class="fas fa-chevron-down"></i></button>
+                <button class="board-toggle" id="button-${board.id}"><i class="fas fa-chevron-down"></i></button>
 
             </div>
             <div class="board-columns hidden">
@@ -64,56 +74,57 @@ export let dom = {
             `;
 
         }
-        setTimeout(function() {
-                for (let board of boards) {
-                    dom.openBoards(board.id);
-                    dom.loadCards(board.id);
-                    dom.editTitle(board.id);
-                    let button = document.getElementById(`add-card-button-${board.id}`);
-                    button.addEventListener("click", function() {dom.createNewCard(board.id);});
-                }
-            },1000);
-
         const outerHtml = `
             <ul class="board-container">
                 ${boardList}
             </ul>
         `;
         this._appendToElement(document.querySelector('#boards'), outerHtml);
+        for (let board of boards) {
+            dom.openBoards(board.id);
+            dom.loadCards(board.id);
+            dom.editTitle(board.id);
+            let button = document.getElementById(`add-card-button-${board.id}`);
+            button.addEventListener("click", function () {
+                dom.createNewCard(board.id);
+            });
+        }
     },
 
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
-        console.log("before calling getcards");
-         dataHandler.getCardsByBoardId(boardId, function(cards){
+        // console.log("before calling getcards");
+        dataHandler.getCardsByBoardId(boardId, function (cards) {
             dom.showCards(cards);
+
         })
+    },
+
+    showCard: function (card) {
+        console.log(document.getElementById(`board-${card.board_id}-${card.status_id}`));
+        let newCard = document.createElement("div");
+        newCard.setAttribute("class", "card");
+        let cardOpenClose = document.createElement("div");
+        cardOpenClose.setAttribute("class", "card-remove");
+        let iElement = document.createElement("i");
+        iElement.setAttribute("class", "fas fa-trash-alt");
+        cardOpenClose.appendChild(iElement);
+        let cardTitle = document.createElement("div");
+        cardTitle.setAttribute("class", "card-title");
+        cardTitle.setAttribute("id", `board-${card.board_id}-card-${card.id}`);
+        cardTitle.textContent = card.title;
+        newCard.appendChild(cardOpenClose);
+        newCard.appendChild(cardTitle);
+        document.getElementById(`board-${card.board_id}-${card.status_id}`).appendChild(newCard);
     },
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
 
         for (let card of cards) {
-            let newCard = document.createElement("div");
-            newCard.setAttribute("class", "card");
-            let cardOpenClose = document.createElement("div");
-            cardOpenClose.setAttribute("class", "card-remove");
-            let iElement = document.createElement("i");
-            iElement.setAttribute("class", "fas fa-trash-alt");
-            cardOpenClose.appendChild(iElement);
-            let cardTitle = document.createElement("div");
-            cardTitle.setAttribute("class", "card-title");
-            cardTitle.setAttribute("id", `board-${card.board_id}-card-${card.id}`);
-            cardTitle.textContent = card.title;
-            newCard.appendChild(cardOpenClose);
-            newCard.appendChild(cardTitle);
-            document.getElementById(`board-${card.board_id}-${card.status_id}`).appendChild(newCard);
-
-
+            this.showCard(card);
         }
-        ;
         //this._appendToElement(document.querySelector("#boards"), );
-
     },
 
    openBoards: function(board_id) {
@@ -122,17 +133,12 @@ export let dom = {
         let actualBoardId = `board-${board_id}`;
         let columns = document.getElementById(actualBoardId).childNodes[3];
 
-        button.addEventListener("click", function(){
-            if (columns.classList.contains("hidden")) {
-                columns.classList.remove("hidden");
-                button.innerHTML = `<i class="fas fa-chevron-up"></i>`
-            } else {
-                columns.classList.add("hidden");
-                button.innerHTML = `<i class="fas fa-chevron-down"></i>`
-            }
+        button.addEventListener("click", function () {
+            button.innerHTML = `<i class="fas fa-chevron-${columns.classList.contains("hidden") ? 'up' : 'down'}"></i>`;
+            columns.classList.toggle("hidden");
         });
 
-   },
+    },
 
    editTitle: function(board_id) {
        let titleId = `board-${board_id}-title`;
@@ -153,20 +159,32 @@ export let dom = {
 
 
     createNewCard: function (boardId) {
-        let newCard = document.createElement("div");
-        newCard.setAttribute("class", "card");
-        let cardOpenClose = document.createElement("div");
-        cardOpenClose.setAttribute("class", "card-remove");
-        let iElement = document.createElement("i");
-        iElement.setAttribute("class", "fas fa-trash-alt");
-        cardOpenClose.appendChild(iElement);
-        let cardTitle = document.createElement("div");
-        cardTitle.setAttribute("class", "card-title");
-        cardTitle.setAttribute("id", `board-${boardId}-card-X`);
-        cardTitle.textContent = "New card";
-        newCard.appendChild(cardOpenClose);
-        newCard.appendChild(cardTitle);
-        document.getElementById(`board-${boardId}-1`).appendChild(newCard);
+
+        let card = {
+            id: null,
+            board_id: boardId,
+            status_id: 1,
+            title: 'New card'
+        };
+
+        dataHandler.createNewCard(boardId, function(response){console.log(response)});
+        dom.showCard(card);
+        //
+        // let newCard = document.createElement("div");
+        // newCard.setAttribute("class", "card");
+        // let cardOpenClose = document.createElement("div");
+        // cardOpenClose.setAttribute("class", "card-remove");
+        // let iElement = document.createElement("i");
+        // iElement.setAttribute("class", "fas fa-trash-alt");
+        // cardOpenClose.appendChild(iElement);
+        // let cardTitle = document.createElement("div");
+        // cardTitle.setAttribute("class", "card-title");
+        // cardTitle.setAttribute("id", `board-${boardId}-card-X`);
+        // cardTitle.textContent = "New card";
+        // newCard.appendChild(cardOpenClose);
+        // newCard.appendChild(cardTitle);
+        // let boardActual = document.getElementById(`board-${boardId}-1`);
+        // boardActual.appendChild(newCard);
 
         /*let title = document.getElementById(`board-${boardId}-card-X`);
         let oldTitle = cardTitle.textContent;
@@ -181,4 +199,13 @@ export let dom = {
         //}
 
     },
+    createNewBoard: function () {
+        let title = "New board";
+        let boardDiv = document.getElementById("boards");
+
+        dataHandler.createNewBoard(title,function (response) {console.log(response)});
+        boardDiv.innerHTML = "";
+
+        setTimeout(dom.loadBoards,0);
+    }
 };
