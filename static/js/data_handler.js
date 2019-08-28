@@ -107,7 +107,20 @@ export let dataHandler = {
             .then(json_response => {callback(json_response);
             console.log(json_response)}
             );
+    },
+    deleteBoard: function(boardId, callback) {
+        fetch(`/delete-board/${boardId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())  // parse the response as JSON
+            .then(json_response => {
+                    callback(json_response);
+                    console.log(json_response)
+                }
+            );
     }
-
     // here comes more features
 };

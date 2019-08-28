@@ -27,6 +27,20 @@ export let dom = {
         dataHandler.getBoards(function(boards){
             dom.showBoards(boards);
         });
+        let wholeBoard = document.getElementById("boards");
+        wholeBoard.addEventListener("click",function (e) {
+
+            if (e.target && e.target.matches("i.fa-trash-alt")) {
+
+                let cardId = e.target.id;
+                dom.deleteCard(cardId);
+
+            }
+            if (e.target && e.target.matches("button.board-delete")) {
+                let boardId = e.target.id.split("-")[2];
+                dom.deleteBoard(boardId);
+            }
+        });
 
     },
     showBoards: function (boards) {
@@ -54,6 +68,7 @@ export let dom = {
             boardList += `
             <section class="board" id="board-${board.id}">
             <div class="board-header"><span class="board-title" id="board-${board.id}-title" >${board.title}</span>
+                <button class="board-delete" id="delete-board-${board.id}">Delete board</button>
                 <button class="board-add" id="add-card-button-${board.id}">Add Card</button>
                 <button class="board-toggle" id="button-${board.id}"><i class="fas fa-chevron-down"></i></button>
 
@@ -96,40 +111,41 @@ export let dom = {
             });
         }
     },
-    // showBoard: function(title){
-    //
-    //     let newBoard = `
-    //         <section class="board" >
-    //         <div class="board-header"><span class="board-title" >${title}</span>
-    //             <button class="board-add">Add Card</button>
-    //             <button class="board-toggle" ><i class="fas fa-chevron-down"></i></button>
-    //
-    //         </div>
-    //         <div class="board-columns hidden">
-    //             <div class="board-column">
-    //                 <div class="board-column-title">New</div>
-    //                 <div class="board-column-content" ></div>
-    //             </div>
-    //             <div class="board-column">
-    //                 <div class="board-column-title">In Progress</div>
-    //                 <div class="board-column-content" ></div>
-    //             </div>
-    //             <div class="board-column">
-    //                 <div class="board-column-title">Testing</div>
-    //                 <div class="board-column-content" ></div>
-    //             </div>
-    //             <div class="board-column">
-    //                 <div class="board-column-title">Done</div>
-    //                 <div class="board-column-content" ></div>
-    //             </div>
-    //         </div>
-    //     </section>`;
-    //     let boardDiv = document.querySelector("#boards");
-    //     boardDiv.innerHTML += newBoard;
-    //     // callback();
+    showBoard: function(title,callback){
+
+        let newBoard = `
+            <section class="board" >
+            <div class="board-header"><span class="board-title" >${title}</span>
+                <button class="board-add">Add Card</button>
+                <button class="board-toggle" ><i class="fas fa-chevron-down"></i></button>
+
+            </div>
+            <div class="board-columns hidden">
+                <div class="board-column">
+                    <div class="board-column-title">New</div>
+                    <div class="board-column-content" ></div>
+                </div>
+                <div class="board-column">
+                    <div class="board-column-title">In Progress</div>
+                    <div class="board-column-content" ></div>
+                </div>
+                <div class="board-column">
+                    <div class="board-column-title">Testing</div>
+                    <div class="board-column-content" ></div>
+                </div>
+                <div class="board-column">
+                    <div class="board-column-title">Done</div>
+                    <div class="board-column-content" ></div>
+                </div>
+            </div>
+        </section>`;
+
+        this._appendToElement(document.querySelector("#boards"), newBoard);
+        // boardDiv.appendChild(newBoard);
+        callback();
 
 
-    // },
+    },
 
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
@@ -137,15 +153,6 @@ export let dom = {
         dataHandler.getCardsByBoardId(boardId, function (cards) {
             dom.showCards(cards);
 
-        });
-        let wholeBoard = document.getElementById("boards");
-        wholeBoard.addEventListener("click",function (e) {
-
-            if (e.target && e.target.matches("i.fa-trash-alt")) {
-
-                let cardId = e.target.id;
-                dom.deleteCard(cardId);
-            }
         });
 
     },
@@ -253,12 +260,23 @@ export let dom = {
     createNewBoard: function (title) {
         let boardDiv = document.getElementById("boards");
 
-        dataHandler.createNewBoard(title,function (response) {console.log(response)});
-        boardDiv.innerHTML = "";
+        dataHandler.createNewBoard(title,function () {
 
-        setTimeout(dom.loadBoards(),0);
+            boardDiv.innerHTML = "";
+            dom.loadBoards();
+        });
+
     },
     deleteCard: function(cardId) {
-        dataHandler.deleteCard(cardId, function (response) {console.log(response)});
+        dataHandler.deleteCard(cardId, function () {
+            let card = document.getElementById(cardId).parentNode.parentNode;
+            card.remove();
+        });
+    },
+    deleteBoard: function(boardId) {
+        dataHandler.deleteBoard(boardId, function () {
+            let board = document.getElementById(`board-${boardId}`);
+            board.remove();
+        });
     }
 };
