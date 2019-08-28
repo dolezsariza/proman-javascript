@@ -58,6 +58,11 @@ def add_new_card(board_id: int):
     data_handler.add_new_card(board_id)
     return {'hello': True}
 
+@app.route("/delete-card/<card_id>")
+@json_response
+def delete_card(card_id):
+    data_handler.delete_card(card_id)
+
 def main():
     app.run(debug=True)
 

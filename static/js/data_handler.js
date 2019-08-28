@@ -67,6 +67,11 @@ export let dataHandler = {
     createNewBoard: function (boardTitle, callback) {
         // creates new board, saves it and calls the callback function with its data
         console.log("hello");
+        // this._api_get(`/add-new-board?board-title=${boardTitle}`, (response) => {
+        //     this._data = response;
+        //     callback(response);
+        // });
+
         fetch(`/add-new-board?board_title=${boardTitle}`, {
             method: 'GET',
             header: {
@@ -92,6 +97,17 @@ export let dataHandler = {
 
 
     },
+    deleteCard: function(cardId, callback) {
+       fetch(`/delete-card/${cardId}`, {
+            method: 'GET',
+            headers:{
+            'Content-Type': 'application/json'
+        }})
+            .then(response => response.json())  // parse the response as JSON
+            .then(json_response => {callback(json_response);
+            console.log(json_response)}
+            );
+    }
 
     // here comes more features
 };

@@ -27,6 +27,7 @@ export let dom = {
         dataHandler.getBoards(function(boards){
             dom.showBoards(boards);
         });
+
     },
     showBoards: function (boards) {
         // shows boards appending them to #boards div
@@ -34,12 +35,17 @@ export let dom = {
         let boardDiv = document.getElementById('boards');
 
         let newButton= `
-            <button id="create-button" class="add-new">Create board</button>
+            <form id="create-board">
+            <input id="user-input" type="text" name="title">
+            <button type="submit" class="add-new">Create board</button>
+            </form>
             `;
         boardDiv.innerHTML += newButton;
-        let createBoardBtn = document.getElementById("create-button");
-        createBoardBtn.addEventListener("click",function () {
-            dom.createNewBoard();
+        let createBoardBtn = document.getElementById("create-board");
+        createBoardBtn.addEventListener("submit",function (e) {
+            e.preventDefault();
+            let title = document.getElementById("user-input").value;
+            dom.createNewBoard(title);
 
         });
         let boardList = '';
@@ -90,6 +96,40 @@ export let dom = {
             });
         }
     },
+    // showBoard: function(title){
+    //
+    //     let newBoard = `
+    //         <section class="board" >
+    //         <div class="board-header"><span class="board-title" >${title}</span>
+    //             <button class="board-add">Add Card</button>
+    //             <button class="board-toggle" ><i class="fas fa-chevron-down"></i></button>
+    //
+    //         </div>
+    //         <div class="board-columns hidden">
+    //             <div class="board-column">
+    //                 <div class="board-column-title">New</div>
+    //                 <div class="board-column-content" ></div>
+    //             </div>
+    //             <div class="board-column">
+    //                 <div class="board-column-title">In Progress</div>
+    //                 <div class="board-column-content" ></div>
+    //             </div>
+    //             <div class="board-column">
+    //                 <div class="board-column-title">Testing</div>
+    //                 <div class="board-column-content" ></div>
+    //             </div>
+    //             <div class="board-column">
+    //                 <div class="board-column-title">Done</div>
+    //                 <div class="board-column-content" ></div>
+    //             </div>
+    //         </div>
+    //     </section>`;
+    //     let boardDiv = document.querySelector("#boards");
+    //     boardDiv.innerHTML += newBoard;
+    //     // callback();
+
+
+    // },
 
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
@@ -97,7 +137,17 @@ export let dom = {
         dataHandler.getCardsByBoardId(boardId, function (cards) {
             dom.showCards(cards);
 
-        })
+        });
+        let wholeBoard = document.getElementById("boards");
+        wholeBoard.addEventListener("click",function (e) {
+
+            if (e.target && e.target.matches("i.fa-trash-alt")) {
+
+                let cardId = e.target.id;
+                dom.deleteCard(cardId);
+            }
+        });
+
     },
 
     showCard: function (card) {
@@ -108,6 +158,7 @@ export let dom = {
         cardOpenClose.setAttribute("class", "card-remove");
         let iElement = document.createElement("i");
         iElement.setAttribute("class", "fas fa-trash-alt");
+        iElement.setAttribute("id",`${card.id}`);
         cardOpenClose.appendChild(iElement);
         let cardTitle = document.createElement("div");
         cardTitle.setAttribute("class", "card-title");
@@ -199,13 +250,15 @@ export let dom = {
         //}
 
     },
-    createNewBoard: function () {
-        let title = "New board";
+    createNewBoard: function (title) {
         let boardDiv = document.getElementById("boards");
 
         dataHandler.createNewBoard(title,function (response) {console.log(response)});
         boardDiv.innerHTML = "";
 
-        setTimeout(dom.loadBoards,0);
+        setTimeout(dom.loadBoards(),0);
+    },
+    deleteCard: function(cardId) {
+        dataHandler.deleteCard(cardId, function (response) {console.log(response)});
     }
 };
