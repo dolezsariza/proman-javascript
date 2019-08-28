@@ -36,13 +36,12 @@ def change_card_title():
         card_id = request.form["card_id"]
         new_title = request.form["newCardTitle"]
         data_handler.rename_card(card_id, new_title)
-        print(card_id)
     return redirect("/")
 
-@app.route("/add-new-board", methods=["GET","POST"])
+@app.route("/add-new-board/<title>", methods=["GET","POST"])
 @json_response
-def add_new_board():
-    title = request.args.get('board_title')
+def add_new_board(title):
+    # title = request.args.get('title')
     # if request.method == "POST":
     #     title = request.form["title"]
     data_handler.add_new_board(title)

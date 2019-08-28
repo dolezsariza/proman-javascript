@@ -59,7 +59,7 @@ export let dom = {
         createBoardBtn.addEventListener("submit",function (e) {
             e.preventDefault();
             let title = document.getElementById("user-input").value;
-            dom.createNewBoard(title);
+            dom.createNewBoard(title,boards);
 
         });
         let boardList = '';
@@ -111,38 +111,39 @@ export let dom = {
             });
         }
     },
-    showBoard: function(title,callback){
+    showBoard: function(title,callback,boards){
+            console.log(boards);
 
-        let newBoard = `
-            <section class="board" >
-            <div class="board-header"><span class="board-title" >${title}</span>
-                <button class="board-add">Add Card</button>
-                <button class="board-toggle" ><i class="fas fa-chevron-down"></i></button>
+        // let newBoard = `
+        //     <section class="board" >
+        //     <div class="board-header"><span class="board-title" >${title}</span>
+        //         <button class="board-add">Add Card</button>
+        //         <button class="board-toggle" ><i class="fas fa-chevron-down"></i></button>
+        //
+        //     </div>
+        //     <div class="board-columns hidden">
+        //         <div class="board-column">
+        //             <div class="board-column-title">New</div>
+        //             <div class="board-column-content" ></div>
+        //         </div>
+        //         <div class="board-column">
+        //             <div class="board-column-title">In Progress</div>
+        //             <div class="board-column-content" ></div>
+        //         </div>
+        //         <div class="board-column">
+        //             <div class="board-column-title">Testing</div>
+        //             <div class="board-column-content" ></div>
+        //         </div>
+        //         <div class="board-column">
+        //             <div class="board-column-title">Done</div>
+        //             <div class="board-column-content" ></div>
+        //         </div>
+        //     </div>
+        // </section>`;
 
-            </div>
-            <div class="board-columns hidden">
-                <div class="board-column">
-                    <div class="board-column-title">New</div>
-                    <div class="board-column-content" ></div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">In Progress</div>
-                    <div class="board-column-content" ></div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">Testing</div>
-                    <div class="board-column-content" ></div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">Done</div>
-                    <div class="board-column-content" ></div>
-                </div>
-            </div>
-        </section>`;
-
-        this._appendToElement(document.querySelector("#boards"), newBoard);
-        // boardDiv.appendChild(newBoard);
-        callback();
+        // this._appendToElement(document.querySelector("#boards"), newBoard);
+        // // boardDiv.appendChild(newBoard);
+        // callback();
 
 
     },
@@ -274,9 +275,9 @@ export let dom = {
         //}
 
     },
-    createNewBoard: function (title) {
+    createNewBoard: function (title,boards) {
         let boardDiv = document.getElementById("boards");
-
+        console.log(boards);
         dataHandler.createNewBoard(title,function () {
 
             boardDiv.innerHTML = "";

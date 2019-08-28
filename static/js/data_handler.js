@@ -72,7 +72,7 @@ export let dataHandler = {
         //     callback(response);
         // });
 
-        fetch(`/add-new-board?board_title=${boardTitle}`, {
+        fetch(`/add-new-board/${boardTitle}`, {
             method: 'GET',
             header: {
                 'Content-Type':'application/json'
