@@ -181,6 +181,7 @@ export let dom = {
 
         for (let card of cards) {
             this.showCard(card);
+            dom.editCardTitle(card);
         }
         //this._appendToElement(document.querySelector("#boards"), );
     },
@@ -214,19 +215,35 @@ export let dom = {
 
 
     },
+    editCardTitle: function(card) {
+       let titleId = `board-${card.board_id}-card-${card.id}`;
+       let title = document.getElementById(titleId);
+       let oldTitle = title.textContent;
+       let idForQuery = titleId.split("-")[3];
+       let clickEvent = function() {
+                          title.innerHTML = `<form action=/change-card-title method="POST">
+                                <input type="text" name="newCardTitle" value="${oldTitle}">
+                                <input type="hidden" name="card_id" value="${idForQuery}">
+                                <button type="submit">Save</button>  
+                              </form>`;
+            title.removeEventListener("click", clickEvent);
+        };
+        title.addEventListener("click", clickEvent);
+
+
+    },
 
 
     createNewCard: function (boardId) {
 
         let card = {
-            id: null,
             board_id: boardId,
             status_id: 1,
             title: 'New card'
         };
 
-        dataHandler.createNewCard(boardId, function(response){console.log(response)});
-        dom.showCard(card);
+        dataHandler.createNewCard(boardId, function(){ dom.showCard(card)});
+
         //
         // let newCard = document.createElement("div");
         // newCard.setAttribute("class", "card");

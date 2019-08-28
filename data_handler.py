@@ -61,6 +61,16 @@ def rename_board(cursor, board_id, new_name):
                     {'board_id':board_id, 'new_name': new_name})
 
 @connection.connection_handler
+def rename_card(cursor, card_id, new_name):
+    cursor.execute("""
+                    UPDATE cards
+                    SET title = %(new_name)s
+                    WHERE id = %(card_id)s;
+                    """,
+
+                    {'card_id':card_id, 'new_name': new_name})
+
+@connection.connection_handler
 def add_new_board(cursor, name):
     cursor.execute("""
                     INSERT INTO boards (title) VALUES (%(name)s);
